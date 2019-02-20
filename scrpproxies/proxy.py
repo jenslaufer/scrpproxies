@@ -1,5 +1,5 @@
-import pandas as pd
 import pkg_resources
+import random
 
 
 class Proxy:
@@ -13,18 +13,20 @@ class Proxy:
 class BonanzaProxy(Proxy):
 
     def __init__(self, username, password):
-        path = 'resources/proxies.csv'
+        path = 'resources/proxies.txt'
         filepath = pkg_resources.resource_filename(__name__, path)
-        self.proxies = pd.read_csv(filepath)
         self.username = username
         self.password = password
+        with open(filepath) as f:
+            self.proxies = f.readlines()
 
     def get(self):
         proxies = {}
-        row = self.proxies.sample(1)
+        secure_random = random.SystemRandom()
+        proxy = secure_random.choice(self.proxies)
         proxy = "http://{}:{}@{}".format(self.username,
                                          self.password,
-                                         row.iloc[0]['host'])
+                                         proxy)
         proxies['http'] = proxy
         proxies['https'] = proxy
         return proxies
