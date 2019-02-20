@@ -23,7 +23,7 @@ class BonanzaProxy(Proxy):
     def get(self):
         proxies = {}
         secure_random = random.SystemRandom()
-        proxy = secure_random.choice(self.proxies)
+        proxy = secure_random.choice(self.proxies).strip('\n')
         proxy = "http://{}:{}@{}".format(self.username,
                                          self.password,
                                          proxy)
