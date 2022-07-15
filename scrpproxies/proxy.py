@@ -27,7 +27,7 @@ class BonanzaProxy(Proxy):
         return {"http": proxy, "https": proxy}
 
 
-class StormProxiesProxy(Proxy):
+class SingleIpProxy(Proxy):
 
     def __init__(self, proxy_ip_address):
         self.ip_address = proxy_ip_address
