@@ -25,3 +25,12 @@ class BonanzaProxy(Proxy):
                                             proxy_data[0]["ip"],
                                             proxy_data[0]["port_http"])
         return {"http": proxy, "https": proxy}
+
+
+class StormProxiesProxy(Proxy):
+
+    def __init__(self, proxy_ip_address):
+        self.ip_address = proxy_ip_address
+
+    def get(self):
+        return {"http": self.ip_address, "https": self.ip_address}
