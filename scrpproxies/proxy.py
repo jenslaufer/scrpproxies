@@ -10,7 +10,7 @@ class Proxy:
         return None
 
 
-class BonanzaProxy(Proxy):
+class MultipleIpProxy(Proxy):
 
     def __init__(self, filepath, random_state=None):
         self.random_state = random_state
@@ -27,10 +27,15 @@ class BonanzaProxy(Proxy):
         return {"http": proxy, "https": proxy}
 
 
-class SingleIpProxy(Proxy):
+class MultipleIpProxy(Proxy):
 
-    def __init__(self, proxy_ip_address):
-        self.ip_address = proxy_ip_address
+    def __init__(self, filepath, random_state=None):
+        self.random_state = random_state
+        self.proxies = pd.read_csv(filepath)
 
     def get(self):
-        return {"http": self.ip_address, "https": self.ip_address}
+        proxy_data = self.proxies.sample(
+            random_state=self.random_state).to_dict('records')
+
+        proxy = "{}".format(proxy_data[0]["ip"])
+        return {"http": proxy, "https": proxy}
